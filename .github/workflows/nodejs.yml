@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup node 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install
+      run: yarn
+    - name: Build
+      run: yarn build
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        body: New Release Version
+    - name: Upload build to release
+      uses: actions/upload-release-asset@v1.0.1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/linux64/clipboard-manager_amd64.deb
+        asset_name: clipboard-manager_amd64.deb
+        asset_content_type: application/deb
