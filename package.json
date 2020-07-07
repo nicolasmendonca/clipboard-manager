@@ -12,7 +12,7 @@
 		"build:linux": "electron-packager . clipboard-manager --platform linux --arch x64 --out build && electron-installer-debian --src build/clipboard-manager-linux-x64 --dest dist/linux64/ --arch amd64"
 	},
 	"devDependencies": {
-		"electron": "^7.1.7",
+		"electron": "^7.2.4",
 		"electron-installer-debian": "https://github.com/nicolasmendonca/electron-installer-debian#remove-version-from-filename",
 		"electron-packager": "^14.1.1",
 		"rimraf": "^3.0.0"
